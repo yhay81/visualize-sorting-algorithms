@@ -1,40 +1,24 @@
-/* global document window */
-
-// How can we use require here if it's frontend? We can thank webpack.
-const Sort = require("./Sort");
-
-// A link to our styles!
+/* global window */
+const ShellSort = require("./Sort");
+const Counter = require("./Counter");
 require("./index.css");
 
-let sort = new Sort([10, 3, 1, 9, 7, 6, 8, 2, 4, 5]);
-sort.sort();
+const shell = new ShellSort([10, 3, 1, 9, 7, 6, 12, 8, 2, 4, 5, 11]);
+shell.sort();
+const counter = new Counter(shell.allState.length);
 
-class Counter {
-  constructor(max) {
-    this.max = max;
-    this.count = 0;
-  }
-  inc() {
-    if (this.count < this.max) this.count++;
-  }
-  dec() {
-    if (this.count > 0) this.count--;
-  }
-}
-let counter = new Counter(sort.allState.length);
-
-function move(e) {
-  const left = 37;
-  const right = 39;
+const LEFT = 37;
+const RIGHT = 39;
+const move = (e) => {
   switch (e.keyCode) {
-    case left:
+    case LEFT:
       counter.dec();
-      sort.show(counter.count);
+      shell.show(counter.count);
       break;
-    case right:
+    case RIGHT:
       counter.inc();
-      sort.show(counter.count);
+      shell.show(counter.count);
       break;
   }
-}
+};
 window.addEventListener("keydown", move);

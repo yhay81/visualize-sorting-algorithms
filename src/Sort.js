@@ -38,21 +38,15 @@ class ShellSort {
     this.array = a;
   }
 
-  show(count) {
-    const state = this.allState[count];
-    this.showD3(
-      state["array"],
-      state["step"],
-      state["first"],
-      state["second"],
-      state["temp"]
-    );
-  }
-
-  showD3(array, step, first, second, temp) {
-    var W = 1000;
-    var H = 200;
-    var BAR_W = 20;
+  /**
+   * Show Image of sorting.
+   * @param {*} i: index of status
+   */
+  show(i) {
+    let { array, step, first, second, temp } = this.allState[i];
+    const W = 1000;
+    const H = 200;
+    const BAR_W = 20;
     array = Array.from(array);
     array.push(temp);
 
@@ -61,7 +55,7 @@ class ShellSort {
       .select("svg")
       .remove();
 
-    var svg = d3
+    const svg = d3
       .select("#log")
       .append("svg")
       .attr("width", W)
@@ -83,7 +77,7 @@ class ShellSort {
         return d * 10;
       })
       .attr("fill", function(d, i) {
-        if (i === 10) {
+        if (i === array.length - 1) {
           return "black";
         } else if (i == first || i == second) {
           return "red";
@@ -113,6 +107,13 @@ class ShellSort {
       .attr("fill", "white");
   }
 
+  /**
+   * Store each status during sorting.
+   * @param {Number} step
+   * @param {Numebr} first
+   * @param {Number} second
+   * @param {Number} temp
+   */
   store(step, first, second, temp) {
     this.allState.push({
       array: Array.from(this.array),
