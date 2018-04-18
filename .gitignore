@@ -24,3 +24,5 @@ yarn-error.log*
 production-server/
 .next/
 junit/
+
+public/bundle.js

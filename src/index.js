@@ -1,7 +1,4 @@
-/* Example Code
-      The following is just some example code for you to play around with.
-      No need to keep this---it's just some code so you don't feel too lonely.
-*/
+/* global document window */
 
 // How can we use require here if it's frontend? We can thank webpack.
 const Sort = require("./Sort");
@@ -9,32 +6,35 @@ const Sort = require("./Sort");
 // A link to our styles!
 require("./index.css");
 
-const sort = new Sort();
+let sort = new Sort([10, 3, 1, 9, 7, 6, 8, 2, 4, 5]);
 sort.sort();
 
-function createCheesyTitle(slogan) {
-  const container = document.createElement("h1");
-  const textNode = document.createTextNode(slogan);
-  container.appendChild(textNode);
-  return container;
+class Counter {
+  constructor(max) {
+    this.max = max;
+    this.count = 0;
+  }
+  inc() {
+    if (this.count < this.max) this.count++;
+  }
+  dec() {
+    if (this.count > 0) this.count--;
+  }
 }
+let counter = new Counter(sort.allState.length);
 
-const title = createCheesyTitle(sort.returnValue("Re-Engineer Yourself"));
-document.getElementById("title").appendChild(title);
-
-/*
-    An simple example of how you can make your project a bit more
-    interactive, if you would like.
-
-    In our `index.html` page, we have a short form.
-    Here is the code that talks to it.
-  */
-function changeTitle(event) {
-  event.preventDefault();
-  // console.log('What is an event?', event);
+function move(e) {
+  const left = 37;
+  const right = 39;
+  switch (e.keyCode) {
+    case left:
+      counter.dec();
+      sort.show(counter.count);
+      break;
+    case right:
+      counter.inc();
+      sort.show(counter.count);
+      break;
+  }
 }
-
-const form = document.querySelector("form");
-document.addEventListener("DOMContentLoaded", () => {
-  form.onsubmit = changeTitle;
-});
+window.addEventListener("keydown", move);
