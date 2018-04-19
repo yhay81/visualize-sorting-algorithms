@@ -16,8 +16,9 @@
       <div class="inner">
         <h3 class="masthead-brand">Visualizing Sorting Algorithm</h3>
         <nav class="nav nav-masthead justify-content-center">
-          <a class="nav-link active" href="#">Insertion Sort</a>
-          <a class="nav-link" href="#">Shell Sort</a>
+          <a id="insertion" class="nav-link active" href="#">Insertion Sort</a>
+          <a id="shell" class="nav-link" href="#">Shell Sort</a>
+          <!-- <a id="insertion-vs-shell" class="nav-link" href="#">Insertion vs Shell</a> -->
         </nav>
       </div>
     </header>
@@ -25,35 +26,36 @@
     <main role="main" class="inner cover">
       <h1 class="cover-heading">Shell Sort</h1>
       <form id="setting">
-        <input type="text" id="count" placeholder="Numbers"></input>
+        <input type="text" id="count" placeholder="Numbers: 20"></input>
         <div id="pattern" class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="random" value="random" checked> Random
+            <input class="form-check-input" type="radio" name="pattern" id="random" value="random" checked> Random
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="sorted" value="sorted"> Nearly Sorted
+            <input class="form-check-input" type="radio" name="pattern" id="sorted" value="sorted"> Nearly Sorted
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="reverse" value="reversed"> Reversed
+            <input class="form-check-input" type="radio" name="pattern" id="reverse" value="reversed"> Reversed
           </label>
         </div>
         <div class="form-check disabled">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="few-unique" value="few-unique"> Few Unique
+            <input class="form-check-input" type="radio" name="pattern" id="few-unique" value="few-unique"> Few Unique
           </label>
         </div>
       </form>
-      <button id="reset-button" class="btn btn-lg btn-secondary">Reset</button>
+      <button id="generate-button" class="btn btn-lg btn-secondary">Generate</button>
       <p class="lead">
         <form id="property">
-          <input type="text" id="speed" placeholder="Speed"></input>
+          <input type="text" id="speed" placeholder="Speed: 1"></input>
         </form>
         <button id="start-button" class="btn btn-lg btn-secondary">Start</button>
         <button id="stop-button" class="btn btn-lg btn-secondary">Stop</button>
+        <button id="reset-button" class="btn btn-lg btn-secondary">Reset</button>
         <div id="log"></div>
       </p>
 
@@ -63,7 +65,8 @@
       <div class="inner">
         <p>This app is made by
           <a href="https://getbootstrap.com/">Bootstrap</a>
-          and d3.js.
+          and
+          <a href="https://d3js.org/">d3.js</a>.
       </div>
     </footer>
     <script type="text/javascript" src="/public/bundle.js"></script>
