@@ -1,6 +1,5 @@
 /* global window document */
-const { getShell, getInsertion } = require("./utils");
-const Counter = require("./Counter");
+const { getShell, getInsertion, Counter } = require("./utils");
 require("./index.css");
 
 const DOWN = 38;
@@ -14,7 +13,12 @@ const countOfArray = document.forms.setting.count;
 function reset() {
   const pattern = document.querySelector('input[name="pattern"]:checked').value;
   const countStr = countOfArray.value === "" ? 20 : countOfArray.value;
-  shell = getSort(parseInt(countStr), pattern);
+  const cnt = parseInt(countStr);
+  if (cnt > 300) {
+    countOfArray.value == ">300 is not allowed";
+    return;
+  }
+  shell = getSort(cnt, pattern);
   counter = new Counter(shell.allState.length);
   shell.show(0);
 }
@@ -58,12 +62,13 @@ generateButton.addEventListener("click", () => {
 
 const insertionTab = document.getElementById("insertion");
 const shellTab = document.getElementById("shell");
-// const vsTab = document.getElementById("insertion-vs-shell");
+
+const sortName = document.getElementById("sort-name");
 insertionTab.addEventListener("click", () => {
   if (insertionTab.classList.contains("active")) return;
   insertionTab.classList.add("active");
   shellTab.classList.remove("active");
-  // vsTab.classList.remove("active");
+  sortName.innerText = "Insertion Sort";
   getSort = getInsertion;
   reset();
 });
@@ -72,15 +77,7 @@ shellTab.addEventListener("click", () => {
   if (shellTab.classList.contains("active")) return;
   insertionTab.classList.remove("active");
   shellTab.classList.add("active");
-  // vsTab.classList.remove("active");
+  sortName.innerText = "Shell Sort";
   getSort = getShell;
   reset();
 });
-
-// vsTab.addEventListener("click", () => {
-//   if (vsTab.classList.contains("active")) return;
-//   insertionTab.classList.remove("active");
-//   shellTab.classList.remove("active");
-//   vsTab.classList.add("active");
-//   reset();
-// });

@@ -1,5 +1,5 @@
-const ShellSort = require("./ShellSort");
-const InsertionSort = require("./InsertionSort");
+const ShellSort = require("./sorts/ShellSort");
+const InsertionSort = require("./sorts/InsertionSort");
 
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
@@ -61,4 +61,23 @@ function getInsertion(count, pattern) {
   return insertion;
 }
 
-module.exports = { getShell, getInsertion };
+class Counter {
+  constructor(max) {
+    this.max = max;
+    this.count = 0;
+  }
+  inc() {
+    if (this.count < this.max) this.count++;
+  }
+  dec() {
+    if (this.count > 0) this.count--;
+  }
+  get isEnd() {
+    return this.count === this.max;
+  }
+  get isStart() {
+    return this.count === 0;
+  }
+}
+
+module.exports = { getShell, getInsertion, Counter };

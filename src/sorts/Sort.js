@@ -1,52 +1,33 @@
 /* global document */
 const d3 = require("d3");
 
-class ShellSort {
+class Sort {
   constructor(array) {
     this.array = array;
     this.node = document.getElementById("log");
+    this.stepsNode = document.getElementById("steps");
     this.allState = [];
   }
 
   /**
-   * Do the Shell Sort
+   * Do the Sort
    */
-  sort() {
-    let a = this.array;
-    for (
-      let k = 2, step = Math.floor(a.length / 2);
-      step > 0;
-      k *= 2, step = Math.floor(a.length / k)
-    ) {
-      for (let i = step; i < a.length; i++) {
-        this.store(step, i, -1, -1);
-        let tmp = a[i];
-        this.store(step, i, -1, tmp);
-        for (var j = i; j >= step; j -= step) {
-          this.store(step, i, j - step, tmp);
-          if (a[j - step] > tmp) {
-            a[j] = a[j - step];
-            this.store(step, i, j - step, tmp);
-          } else {
-            break;
-          }
-        }
-        a[j] = tmp;
-        this.store(step, i, j - step, tmp);
-      }
-    }
-    this.array = a;
-  }
+  sort() {}
 
   /**
    * Show Image of sorting.
    * @param {*} i: index of status
    */
   show(i) {
-    let { array, step, first, second, temp } = this.allState[i];
+    let { array, step, first, second, temp, compares } = this.allState[i];
+    this.stepsNode.innerHTML =
+      "How Many Comparing: " +
+      compares +
+      " / " +
+      this.allState[this.allState.length - 1].compares;
     const W = 500;
     const H = 200;
-    const BAR_W = (W - 100) / array.length;
+    const BAR_W = W / (array.length + 1) - 1;
     const BAR_H = H / Math.max(...array);
     array = Array.from(array);
     array.push(temp);
@@ -70,7 +51,7 @@ class ShellSort {
       .attr("x", function(d, i) {
         return i * (BAR_W + 1);
       })
-      .attr("y", function(d, i) {
+      .attr("y", function(d) {
         return H - d * BAR_H;
       })
       .attr("width", BAR_W)
@@ -79,17 +60,21 @@ class ShellSort {
       })
       .attr("fill", function(d, i) {
         if (i === array.length - 1) {
-          return "black";
-        } else if (i == first || i == second) {
+          return "DarkRed";
+        } else if (i == second) {
           return "red";
-        } else if (first - i > 0 && (first - i) % step === 0) {
+        } else if (i == second - step) {
+          return "OrangeRed";
+        } else if (i == first) {
           return "green";
+        } else if (first - i > 0 && (first - i) % step === 0) {
+          return "OliveDrab";
         } else {
           return "turquoise";
         }
       });
 
-    if (array.lenght < 30) {
+    if (array.length < 30) {
       svg
         .selectAll("text")
         .data(array)
@@ -100,30 +85,26 @@ class ShellSort {
         })
         .attr("text-anchor", "middle")
         .attr("x", function(d, i) {
-          return i * (BAR_W + 1) + 10;
+          return i * (BAR_W + 1) + BAR_W / 2;
         })
         .attr("y", function(d) {
-          return H - d * BAR_H + 15;
+          return H - d * BAR_H + BAR_W / 1.5;
         })
-        .attr("font-size", "10px")
+        .attr("font-size", function() {
+          return BAR_W / 2 + "px";
+        })
         .attr("fill", "white");
     }
   }
 
-  /**
-   * Store each status during sorting.
-   * @param {Number} step
-   * @param {Numebr} first
-   * @param {Number} second
-   * @param {Number} temp
-   */
-  store(step, first, second, temp) {
+  store(step, first, second, temp, compares) {
     this.allState.push({
       array: Array.from(this.array),
       step,
       first,
       second,
       temp,
+      compares,
     });
   }
 
@@ -145,4 +126,4 @@ class ShellSort {
   }
 }
 
-module.exports = ShellSort;
+module.exports = Sort;
