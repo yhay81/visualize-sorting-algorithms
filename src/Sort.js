@@ -14,9 +14,9 @@ class ShellSort {
   sort() {
     let a = this.array;
     for (
-      let step = parseInt(a.length / 2);
+      let k = 2, step = Math.floor(a.length / 2);
       step > 0;
-      step = parseInt(step / 2)
+      k *= 2, step = Math.floor(a.length / k)
     ) {
       for (let i = step; i < a.length; i++) {
         this.store(step, i, -1, -1);
@@ -44,9 +44,10 @@ class ShellSort {
    */
   show(i) {
     let { array, step, first, second, temp } = this.allState[i];
-    const W = 1000;
+    const W = 500;
     const H = 200;
-    const BAR_W = 20;
+    const BAR_W = (W - 100) / array.length;
+    const BAR_H = H / Math.max(...array);
     array = Array.from(array);
     array.push(temp);
 
@@ -70,11 +71,11 @@ class ShellSort {
         return i * (BAR_W + 1);
       })
       .attr("y", function(d, i) {
-        return H - d * 10;
+        return H - d * BAR_H;
       })
       .attr("width", BAR_W)
       .attr("height", function(d) {
-        return d * 10;
+        return d * BAR_H;
       })
       .attr("fill", function(d, i) {
         if (i === array.length - 1) {
@@ -88,23 +89,25 @@ class ShellSort {
         }
       });
 
-    svg
-      .selectAll("text")
-      .data(array)
-      .enter()
-      .append("text")
-      .text(function(d) {
-        return d;
-      })
-      .attr("text-anchor", "middle")
-      .attr("x", function(d, i) {
-        return i * (BAR_W + 1) + 10;
-      })
-      .attr("y", function(d) {
-        return H - d * 10 + 15;
-      })
-      .attr("font-size", "10px")
-      .attr("fill", "white");
+    if (array.lenght < 30) {
+      svg
+        .selectAll("text")
+        .data(array)
+        .enter()
+        .append("text")
+        .text(function(d) {
+          return d;
+        })
+        .attr("text-anchor", "middle")
+        .attr("x", function(d, i) {
+          return i * (BAR_W + 1) + 10;
+        })
+        .attr("y", function(d) {
+          return H - d * BAR_H + 15;
+        })
+        .attr("font-size", "10px")
+        .attr("fill", "white");
+    }
   }
 
   /**
@@ -123,6 +126,77 @@ class ShellSort {
       temp,
     });
   }
+
+  async autoPlay(counter, speed = 100) {
+    if (this.running) return;
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    this.stop = false;
+    this.running = true;
+    for (; !counter.isEnd && !this.stop; counter.inc()) {
+      this.show(counter.count);
+      await sleep(speed);
+    }
+    this.stop = true;
+    this.running = false;
+  }
+
+  stopPlay() {
+    this.stop = true;
+  }
 }
 
-module.exports = ShellSort;
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getShell(count, pattern) {
+  let array = null;
+  switch (pattern) {
+    case "reversed":
+      array = Array.from(new Array(count)).map((v, i) => count - i);
+      break;
+
+    case "sorted":
+      array = makeNearlySortedArray(count);
+      break;
+
+    case "few-unique":
+      array = shuffle(
+        Array.from(new Array(count)).map((v, i) =>
+          Math.ceil(5 * (i + 1) / count)
+        )
+      );
+      break;
+
+    default:
+      array = shuffle(Array.from(new Array(count)).map((v, i) => i + 1));
+      break;
+  }
+  const shell = new ShellSort(array);
+  shell.sort();
+  return shell;
+}
+
+function makeNearlySortedArray(count) {
+  const array0 = Array.from(new Array(count)).map((v, i) => i + 1);
+  const size = count > 10 ? 4 : 2;
+  const array1 = [],
+    array2 = [],
+    array3 = [];
+  for (let i = 0; i < Math.ceil(count / size); i++) {
+    array1.push(array0.slice(i * size, (i + 1) * size));
+  }
+  console.log(array1);
+
+  for (let each of array1) {
+    array2.push(shuffle(each));
+  }
+  console.log(array2);
+  return array3.concat(...array2);
+}
+
+module.exports = getShell;

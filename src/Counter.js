@@ -9,6 +9,12 @@ class Counter {
   dec() {
     if (this.count > 0) this.count--;
   }
+  get isEnd() {
+    return this.count === this.max;
+  }
+  get isStart() {
+    return this.count === 0;
+  }
 }
 
 module.exports = Counter;

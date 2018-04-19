@@ -5,15 +5,68 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link rel="icon" href="/public/favicon.ico" />
-  <title>Code Chrysalis</title>
+  <title>Visualizing Sorting Algorithm</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
 </head>
 
-<body>
-  <div id="title"></div>
-  <div id="log"></div>
-  <script type="text/javascript" src="/public/bundle.js"></script>
+<body class="text-center">
+  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <h3 class="masthead-brand">Visualizing Sorting Algorithm</h3>
+        <nav class="nav nav-masthead justify-content-center">
+          <a class="nav-link active" href="#">Insertion Sort</a>
+          <a class="nav-link" href="#">Shell Sort</a>
+        </nav>
+      </div>
+    </header>
+
+    <main role="main" class="inner cover">
+      <h1 class="cover-heading">Shell Sort</h1>
+      <form id="setting">
+        <input type="text" id="count" placeholder="Numbers"></input>
+        <div id="pattern" class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="random" value="random" checked> Random
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="sorted" value="sorted"> Nearly Sorted
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="reverse" value="reversed"> Reversed
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="few-unique" value="few-unique"> Few Unique
+          </label>
+        </div>
+      </form>
+      <button id="reset-button" class="btn btn-lg btn-secondary">Reset</button>
+      <p class="lead">
+        <form id="property">
+          <input type="text" id="speed" placeholder="Speed"></input>
+        </form>
+        <button id="start-button" class="btn btn-lg btn-secondary">Start</button>
+        <button id="stop-button" class="btn btn-lg btn-secondary">Stop</button>
+        <div id="log"></div>
+      </p>
+
+    </main>
+
+    <footer class="mastfoot mt-auto">
+      <div class="inner">
+        <p>This app is made by
+          <a href="https://getbootstrap.com/">Bootstrap</a>
+          and d3.js.
+      </div>
+    </footer>
+    <script type="text/javascript" src="/public/bundle.js"></script>
 </body>
 
 </html>
