@@ -32,8 +32,7 @@ class Sort {
     array = Array.from(array);
     array.push(temp);
 
-    d3
-      .select("#log")
+    d3.select("#log")
       .select("svg")
       .remove();
 

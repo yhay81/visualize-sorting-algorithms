@@ -13,9 +13,7 @@ class ShellSort extends Sort {
       k *= 2, step = Math.floor(a.length / k)
     ) {
       for (let i = step; i < a.length; i++) {
-        this.store(step, i, 0, 0, compares);
         let tmp = a[i];
-        this.store(step, i, 0, tmp, compares);
         for (var j = i; j >= step; j -= step) {
           this.store(step, i, j, tmp, compares);
           compares++;

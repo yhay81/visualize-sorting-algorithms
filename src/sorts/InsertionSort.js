@@ -9,9 +9,7 @@ class InsertSort extends Sort {
     const step = 1;
     let compares = 0;
     for (let i = 0; i < a.length; i++) {
-      this.store(step, i, 0, 0, compares);
       let tmp = a[i];
-      this.store(step, i, 0, tmp, compares);
       for (var j = i; j >= step; j -= step) {
         this.store(step, i, j, tmp, compares);
         compares++;

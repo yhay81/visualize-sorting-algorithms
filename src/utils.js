@@ -18,12 +18,10 @@ function makeNearlySortedArray(count) {
   for (let i = 0; i < Math.ceil(count / size); i++) {
     array1.push(array0.slice(i * size, (i + 1) * size));
   }
-  console.log(array1);
 
   for (let each of array1) {
     array2.push(shuffle(each));
   }
-  console.log(array2);
   return array3.concat(...array2);
 }
 
@@ -38,7 +36,7 @@ function createArray(count, pattern) {
     case "few-unique":
       return shuffle(
         Array.from(new Array(count)).map((v, i) =>
-          Math.ceil(5 * (i + 1) / count)
+          Math.ceil((5 * (i + 1)) / count)
         )
       );
 
